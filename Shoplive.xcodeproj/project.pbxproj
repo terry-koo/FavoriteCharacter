@@ -16,7 +16,7 @@
 		3932C0042B045780001ABB71 /* FavoriteCard.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3932C0022B045780001ABB71 /* FavoriteCard.xcdatamodeld */; };
 		3932C0072B045834001ABB71 /* FavoriteCard+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3932C0052B045834001ABB71 /* FavoriteCard+CoreDataClass.swift */; };
 		3932C0082B045834001ABB71 /* FavoriteCard+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3932C0062B045834001ABB71 /* FavoriteCard+CoreDataProperties.swift */; };
-		3932C0102B04C2C7001ABB71 /* ShopliveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3932C00F2B04C2C7001ABB71 /* ShopliveTests.swift */; };
+		3932C0102B04C2C7001ABB71 /* ShopliveCoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3932C00F2B04C2C7001ABB71 /* ShopliveCoreDataTests.swift */; };
 		39C6087D2B0304AA00E3A130 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C6087C2B0304AA00E3A130 /* AppDelegate.swift */; };
 		39C6087F2B0304AA00E3A130 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C6087E2B0304AA00E3A130 /* SceneDelegate.swift */; };
 		39C608812B0304AA00E3A130 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C608802B0304AA00E3A130 /* SearchViewController.swift */; };
@@ -67,7 +67,7 @@
 		3932C0052B045834001ABB71 /* FavoriteCard+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "FavoriteCard+CoreDataClass.swift"; path = "Shoplive/Repository/CoreData/FavoriteCard+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3932C0062B045834001ABB71 /* FavoriteCard+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "FavoriteCard+CoreDataProperties.swift"; path = "Shoplive/Repository/CoreData/FavoriteCard+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3932C00D2B04C2C7001ABB71 /* ShopliveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopliveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3932C00F2B04C2C7001ABB71 /* ShopliveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveTests.swift; sourceTree = "<group>"; };
+		3932C00F2B04C2C7001ABB71 /* ShopliveCoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveCoreDataTests.swift; sourceTree = "<group>"; };
 		39C608792B0304AA00E3A130 /* Shoplive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shoplive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39C6087C2B0304AA00E3A130 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		39C6087E2B0304AA00E3A130 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 		3932C00E2B04C2C7001ABB71 /* ShopliveTests */ = {
 			isa = PBXGroup;
 			children = (
-				3932C00F2B04C2C7001ABB71 /* ShopliveTests.swift */,
+				3932C00F2B04C2C7001ABB71 /* ShopliveCoreDataTests.swift */,
 			);
 			path = ShopliveTests;
 			sourceTree = "<group>";
@@ -398,7 +398,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3932C0102B04C2C7001ABB71 /* ShopliveTests.swift in Sources */,
+				3932C0102B04C2C7001ABB71 /* ShopliveCoreDataTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
