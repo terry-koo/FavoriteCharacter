@@ -8,10 +8,11 @@
 import UIKit
 
 class FavoriteViewController: UIViewController {
+    var favoriteViewModel: FavoriteViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .cyan
     }
 
 }
