@@ -7,16 +7,11 @@
 
 import UIKit
 
-class FavoritViewController: UIViewController {
+class FavoriteViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
 
-    deinit {
-        print("- \(type(of: self)) deinit")
-    }
-    
 }
