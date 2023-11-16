@@ -12,7 +12,7 @@ final class HomeViewController: UIViewController {
     private let favoriteBar = CustomTabItemView(frame: .zero, labelText: "FAVORITE")
     
     private let homeViewModel = HomeViewModel()
-    private var loadingIndicator: UIActivityIndicatorView?
+    
     private var currentChildViewController: UIViewController?
     private var searchViewController: SearchViewController?
     private var favoriteViewController: FavoriteViewController?
@@ -80,19 +80,6 @@ extension HomeViewController {
         
         favoriteBar.isUserInteractionEnabled = true
         favoriteBar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(favoriteBarTapped(_:))))
-    }
-    
-    private func showLoading() {
-        loadingIndicator = UIActivityIndicatorView(style: .large)
-        loadingIndicator?.center = view.center
-        loadingIndicator?.startAnimating()
-        view.addSubview(loadingIndicator!)
-    }
-    
-    private func hideLoading() {
-        loadingIndicator?.stopAnimating()
-        loadingIndicator?.removeFromSuperview()
-        loadingIndicator = nil
     }
     
     // 메모리에 SearchViewController가 존재 하지 않을 경우만 초기화 동작
