@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
     var searchViewModel: SearchViewModel?
     
     private let characterCardCollectionView: UICollectionView = {

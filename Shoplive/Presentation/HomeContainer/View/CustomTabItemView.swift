@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class CustomTabItemView: UIView {
+final class CustomTabItemView: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12)

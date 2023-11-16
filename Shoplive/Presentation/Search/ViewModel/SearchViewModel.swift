@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SearchViewModel {
+final class SearchViewModel {
     var characterCollectionDatas: Observable<[CharacterData]> = Observable([])
     var apiError: Observable<APIError?> = Observable(nil)
     var isFetching: Observable<Bool> = Observable(false)
