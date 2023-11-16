@@ -16,4 +16,17 @@ extension String {
         }
         return ""
     }
+    
+    func convertToHTTPS() -> String {
+        // HTTP 문자열을 URL 객체로 변환
+        if var urlComponents = URLComponents(string: self) {
+            urlComponents.scheme = "https"
+            
+            // HTTPS로 변환된 URL 문자열 반환
+            if let httpsURLString = urlComponents.url?.absoluteString {
+                return httpsURLString
+            }
+        }
+        return self
+    }
 }
