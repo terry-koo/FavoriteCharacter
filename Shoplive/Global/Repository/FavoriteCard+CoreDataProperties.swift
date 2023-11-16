@@ -2,7 +2,7 @@
 //  FavoriteCard+CoreDataProperties.swift
 //  Shoplive
 //
-//  Created by Terry Koo on 11/15/23.
+//  Created by Terry Koo on 11/16/23.
 //
 //
 
@@ -16,11 +16,11 @@ extension FavoriteCard {
         return NSFetchRequest<FavoriteCard>(entityName: "FavoriteCard")
     }
 
-    @NSManaged public var saveDate: Date?
-    @NSManaged public var characterImage: String?
     @NSManaged public var characterDescription: String?
+    @NSManaged public var characterImage: String?
     @NSManaged public var characterName: String?
     @NSManaged public var id: String?
+    @NSManaged public var saveDate: Date?
 
 }
 

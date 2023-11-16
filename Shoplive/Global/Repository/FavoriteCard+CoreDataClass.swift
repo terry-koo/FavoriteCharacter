@@ -2,7 +2,7 @@
 //  FavoriteCard+CoreDataClass.swift
 //  Shoplive
 //
-//  Created by Terry Koo on 11/15/23.
+//  Created by Terry Koo on 11/16/23.
 //
 //
 
