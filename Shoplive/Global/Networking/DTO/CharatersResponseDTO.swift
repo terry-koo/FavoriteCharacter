@@ -26,6 +26,21 @@ struct Character: Codable {
     let thumbnail: Thumbnail?
 }
 
+extension Character {
+    func toCharacterData() -> CharacterData? {
+        guard let id = self.id,
+              let name = self.name,
+              let description = self.description,
+              let thumbnail = self.thumbnail,
+              let thumbnailPath = thumbnail.path,
+              let thumbnailExtension = thumbnail.thumbnailExtension else {
+            return nil
+        }
+        
+        let url = URL(string: (thumbnailPath + "." + thumbnailExtension).convertToHTTPS())!
+        
+        return CharacterData(id: id.str, name: name, description: description, imageURL: url)
+    }
 }
 
 // MARK: - Thumbnail
