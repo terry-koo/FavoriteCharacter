@@ -70,6 +70,7 @@ extension SearchViewController {
     private func setupSearchBarView() {
         view.addSubview(searchBar)
         
+        searchBar.delegate = self
         
         searchBar.snp.makeConstraints { make in
             make.leading.top.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -109,6 +110,23 @@ extension SearchViewController {
         view.addGestureRecognizer(tapGesture)
     }
 }
+
+extension SearchViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchViewModel?.searchTextDidChange(searchText)
+    }
+    
+}
+
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -135,7 +153,11 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let scrollViewHeight = scrollView.frame.size.height
         
         if contentOffsetY > contentHeight - scrollViewHeight - threshold {
+            if searchBar.text?.isEmpty ?? true {
+                searchViewModel?.getCharaterCollections()
+            } else {
                 searchViewModel?.searchCharacter(searchBar.text!)
+            }
         }
     }
     
