@@ -46,6 +46,12 @@ class CharacterCardCollectionViewCell: UICollectionViewCell {
         setupViewsAndLayout()
     }
     
+    func setData(_ characterData: CharacterData) {
+        imageView.kf.setImage(with: characterData.imageURL)
+        nameLabel.text = characterData.name
+        descriptionLabel.text = characterData.description
+    }
+    
     private func setupViewsAndLayout() {
         addShadow()
         layer.cornerRadius = 5
