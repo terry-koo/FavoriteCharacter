@@ -48,6 +48,14 @@ class SearchViewController: UIViewController {
     }
     
     private func bind() {
+        guard let searchViewModel else { return }
+        
+        searchViewModel.characterCollectionDatas.observe(on: self) { [weak self] data in
+            guard let self else { return }
+            
+            characterCardCollectionView.reloadData()
+        }
+        
 }
 
 // UI
@@ -71,6 +79,8 @@ extension SearchViewController {
     private func setupCollectionView() {
         view.addSubview(characterCardCollectionView)
         
+        characterCardCollectionView.delegate = self
+        characterCardCollectionView.dataSource = self
         
         characterCardCollectionView.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom)
@@ -99,3 +109,35 @@ extension SearchViewController {
         view.addGestureRecognizer(tapGesture)
     }
 }
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let searchViewModel else { return 0 }
+        
+        return searchViewModel.getCharacterCollectionDataCount()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCardCollectionViewCell.identifier, for: indexPath) as! CharacterCardCollectionViewCell
+        
+        guard let searchViewModel else { return cell }
+        
+        let characterData = searchViewModel.getCharacterData(index: indexPath.row)
+        cell.setData(characterData)
+        
+        return cell
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let threshold: CGFloat = 200
+        let contentOffsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.size.height
+        
+        if contentOffsetY > contentHeight - scrollViewHeight - threshold {
+                searchViewModel?.searchCharacter(searchBar.text!)
+        }
+    }
+    
+}
+
