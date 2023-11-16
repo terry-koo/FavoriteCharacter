@@ -56,6 +56,17 @@ class SearchViewController: UIViewController {
             characterCardCollectionView.reloadData()
         }
         
+        searchViewModel.isFetching.observe(on: self) { [weak self] isFetching in
+            guard let self else { return }
+            
+            if isFetching {
+                showLoading()
+            } else {
+                hideLoading()
+            }
+        }
+    }
+    
 }
 
 // UI
