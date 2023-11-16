@@ -25,7 +25,6 @@ class CustomTabItemView: UIView {
         super.init(frame: frame)
         titleLabel.text = labelText
         setupUI()
-        inactive()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,7 +43,7 @@ class CustomTabItemView: UIView {
         
         lineView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
             make.height.equalTo(3)
             make.bottom.equalToSuperview()
         }
