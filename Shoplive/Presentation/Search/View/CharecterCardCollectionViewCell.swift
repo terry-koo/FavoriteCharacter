@@ -11,6 +11,16 @@ import Kingfisher
 
 final class CharacterCardCollectionViewCell: UICollectionViewCell {
     static let identifier = "CharacterCardCollectionViewCell"
+    var favorite: Bool = false {
+            didSet{
+                if favorite {
+                    backgroundColor = .darkGray
+                }
+                else {
+                    backgroundColor = .systemGray6
+                }
+            }
+        }
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -44,6 +54,11 @@ final class CharacterCardCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViewsAndLayout()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        favorite = false
     }
     
     func setData(_ characterData: CharacterData) {
