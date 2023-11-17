@@ -7,9 +7,7 @@
 
 import Foundation
 
-protocol Serviceable {
-    associatedtype ResponseType: Decodable
-}
+protocol Serviceable { }
 
 extension Serviceable {
     func makeRequest<T: Decodable>(with request: URLRequest, completion: @escaping (T?, APIError?) -> Void) {

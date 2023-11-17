@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class FavoriteCardCoreDataManager: FavoriteCardStore {
+final class FavoriteCardCoreDataManager: FavoriteCardStore {
     
     func saveFavoriteCard(id: String, characterName: String, characterDescription: String, characterImage: String, saveDate: Date, completion: @escaping () -> Void) {
         CoreDataStack.shared.performBackgroundTask { context in

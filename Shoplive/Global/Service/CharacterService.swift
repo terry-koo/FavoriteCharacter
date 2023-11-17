@@ -8,12 +8,24 @@
 import Foundation
 
 struct CharacterService: Serviceable {
-    typealias ResponseType = CharatersResponseDTO
-    
-    func fetchResource(limit: Int, offset: Int, completion: @escaping (Result<ResponseType, APIError>) -> Void) {
-        makeRequest(with: EndPoint.getCharacterCollection(limit: limit, offset: offset).asURLRequest()) { (response: ResponseType?, error) in
+    func fetchCharacterCollections(limit: Int, offset: Int, completion: @escaping (Result<CharatersResponseDTO, APIError>) -> Void) {
+        makeRequest(with: EndPoint.getCharacterCollection(limit: limit, offset: offset).asURLRequest()) { (response: CharatersResponseDTO?, error) in
             if let error = error {
-                debugPrint("[ERROR] \(error)")
+                debugPrint("[ERROR \(#function)] \(error)")
+                completion(.failure(error))
+                return
+            }
+            
+            if let response = response {
+                completion(.success(response))
+            }
+        }
+    }
+    
+    func fetchCharacterCollectionsWithNameStart(name: String, limit: Int, offset: Int, completion: @escaping (Result<CharatersResponseDTO, APIError>) -> Void) {
+        makeRequest(with: EndPoint.getCharacterCollectionWithName(limit: limit, offset: offset, name: name).asURLRequest()) { (response: CharatersResponseDTO?, error) in
+            if let error = error {
+                debugPrint("[ERROR \(#function)] \(error)")
                 completion(.failure(error))
                 return
             }
