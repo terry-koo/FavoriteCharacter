@@ -14,7 +14,7 @@ final class CoreDataStack {
     private init() {}
     
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "FavoriteCard")
+        let container = NSPersistentContainer(name: "FavoriteCharacter")
         
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
@@ -49,7 +49,7 @@ final class CoreDataStack {
     }
     
     func reset() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "FavoriteCard")
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "FavoriteCharacter")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         
         do {

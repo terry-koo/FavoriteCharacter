@@ -12,11 +12,11 @@ import CoreData
 
 final class ShopliveCoreDataTests: XCTestCase {
 
-    var coreDataManager: FavoriteCardCoreDataManager!
+    var coreDataManager: FavoriteCharacterCoreDataManager!
        
        override func setUp() {
            super.setUp()
-           coreDataManager = FavoriteCardCoreDataManager()
+           coreDataManager = FavoriteCharacterCoreDataManager()
            CoreDataStack.shared.reset()
        }
        
@@ -26,10 +26,10 @@ final class ShopliveCoreDataTests: XCTestCase {
            CoreDataStack.shared.reset()
        }
        
-       func testSaveFavoriteCard() {
-           let expectation = XCTestExpectation(description: "Save favorite card")
+       func testSaveFavoriteCharacter() {
+           let expectation = XCTestExpectation(description: "Save favorite character")
            
-           coreDataManager.saveFavoriteCard(id: "1",
+           coreDataManager.saveFavoriteCharacter(id: "1",
                                             characterName: "TestName",
                                             characterDescription: "TestDescription",
                                             characterImage: "TestImage",
@@ -39,15 +39,15 @@ final class ShopliveCoreDataTests: XCTestCase {
            
            wait(for: [expectation], timeout: 5.0)
            
-           let fetchExpectation = XCTestExpectation(description: "Fetch favorite cards")
-           coreDataManager.fetchFavoriteCards { cards in
-               XCTAssertEqual(cards.count, 1)
+           let fetchExpectation = XCTestExpectation(description: "Fetch favorite characters")
+           coreDataManager.fetchFavoriteCharacters { characters in
+               XCTAssertEqual(characters.count, 1)
                
-               let savedCard = cards.first
-               XCTAssertEqual(savedCard?.id, "1")
-               XCTAssertEqual(savedCard?.characterName, "TestName")
-               XCTAssertEqual(savedCard?.characterDescription, "TestDescription")
-               XCTAssertEqual(savedCard?.characterImage, "TestImage")
+               let savedCharacter = characters.first
+               XCTAssertEqual(savedCharacter?.id, "1")
+               XCTAssertEqual(savedCharacter?.characterName, "TestName")
+               XCTAssertEqual(savedCharacter?.characterDescription, "TestDescription")
+               XCTAssertEqual(savedCharacter?.characterImage, "TestImage")
                
                fetchExpectation.fulfill()
            }
@@ -55,10 +55,10 @@ final class ShopliveCoreDataTests: XCTestCase {
            wait(for: [fetchExpectation], timeout: 5.0)
        }
        
-    func testRemoveFavoriteCard() {
+    func testRemoveFavoriteCharacter() {
         // 미리 데이터를 저장
-        let saveExpectation = XCTestExpectation(description: "Save favorite card")
-        coreDataManager.saveFavoriteCard(id: "1",
+        let saveExpectation = XCTestExpectation(description: "Save favorite character")
+        coreDataManager.saveFavoriteCharacter(id: "1",
                                          characterName: "TestName",
                                          characterDescription: "TestDescription",
                                          characterImage: "TestImage",
@@ -67,8 +67,8 @@ final class ShopliveCoreDataTests: XCTestCase {
         }
         wait(for: [saveExpectation], timeout: 5.0)
         
-        let saveExpectation1 = XCTestExpectation(description: "Save favorite card")
-        coreDataManager.saveFavoriteCard(id: "2",
+        let saveExpectation1 = XCTestExpectation(description: "Save favorite character")
+        coreDataManager.saveFavoriteCharacter(id: "2",
                                          characterName: "TestName",
                                          characterDescription: "TestDescription",
                                          characterImage: "TestImage",
@@ -78,15 +78,15 @@ final class ShopliveCoreDataTests: XCTestCase {
         wait(for: [saveExpectation1], timeout: 5.0)
         
         // 저장된 데이터를 삭제
-        let removeExpectation = XCTestExpectation(description: "Remove favorite card")
-        coreDataManager.removeFavoriteCard(id: "1") {
+        let removeExpectation = XCTestExpectation(description: "Remove favorite character")
+        coreDataManager.removeFavoriteCharacter(id: "1") {
             removeExpectation.fulfill()
         }
         wait(for: [removeExpectation], timeout: 5.0)
         
         // 저장된 데이터를 삭제
-        let removeExpectation1 = XCTestExpectation(description: "Remove favorite card")
-        coreDataManager.removeFavoriteCard(id: "2") {
+        let removeExpectation1 = XCTestExpectation(description: "Remove favorite character")
+        coreDataManager.removeFavoriteCharacter(id: "2") {
             removeExpectation1.fulfill()
         }
         wait(for: [removeExpectation1], timeout: 5.0)
@@ -94,18 +94,18 @@ final class ShopliveCoreDataTests: XCTestCase {
         
 
         // 삭제 후 데이터가 없는지 확인
-        let fetchExpectation = XCTestExpectation(description: "Fetch favorite cards")
-        coreDataManager.fetchFavoriteCards { cards in
-            XCTAssertEqual(cards.count, 0)
+        let fetchExpectation = XCTestExpectation(description: "Fetch favorite characters")
+        coreDataManager.fetchFavoriteCharacters { characters in
+            XCTAssertEqual(characters.count, 0)
             fetchExpectation.fulfill()
         }
         wait(for: [fetchExpectation], timeout: 5.0)
     }
     
-    func testRemoveOldestFavoriteCard() {
+    func testRemoveOldestFavoriteCharacter() {
         // 미리 데이터를 저장
-        let saveExpectation = XCTestExpectation(description: "Save favorite card")
-        coreDataManager.saveFavoriteCard(id: "1",
+        let saveExpectation = XCTestExpectation(description: "Save favorite character")
+        coreDataManager.saveFavoriteCharacter(id: "1",
                                          characterName: "TestName",
                                          characterDescription: "TestDescription",
                                          characterImage: "TestImage",
@@ -115,25 +115,25 @@ final class ShopliveCoreDataTests: XCTestCase {
         wait(for: [saveExpectation], timeout: 5.0)
 
         // 저장된 데이터를 삭제
-        let removeExpectation = XCTestExpectation(description: "Remove oldest favorite card")
-        coreDataManager.removeOldestFavoriteCard {
+        let removeExpectation = XCTestExpectation(description: "Remove oldest favorite character")
+        coreDataManager.removeOldestFavoriteCharacter {
             removeExpectation.fulfill()
         }
         wait(for: [removeExpectation], timeout: 5.0)
 
         // 삭제 후 데이터가 없는지 확인
-        let fetchExpectation = XCTestExpectation(description: "Fetch favorite cards")
-        coreDataManager.fetchFavoriteCards { cards in
-            XCTAssertEqual(cards.count, 0)
+        let fetchExpectation = XCTestExpectation(description: "Fetch favorite characters")
+        coreDataManager.fetchFavoriteCharacters { characters in
+            XCTAssertEqual(characters.count, 0)
             fetchExpectation.fulfill()
         }
         wait(for: [fetchExpectation], timeout: 5.0)
     }
        
-       func testFetchFavoriteCards() {
+       func testFetchFavoriteCharacters() {
            // 미리 데이터를 저장
-           let saveExpectation = XCTestExpectation(description: "Save favorite card")
-           coreDataManager.saveFavoriteCard(id: "1",
+           let saveExpectation = XCTestExpectation(description: "Save favorite character")
+           coreDataManager.saveFavoriteCharacter(id: "1",
                                             characterName: "TestName",
                                             characterDescription: "TestDescription",
                                             characterImage: "TestImage",
@@ -143,15 +143,15 @@ final class ShopliveCoreDataTests: XCTestCase {
            wait(for: [saveExpectation], timeout: 5.0)
            
            // 데이터를 가져와서 확인
-           let fetchExpectation = XCTestExpectation(description: "Fetch favorite cards")
-           coreDataManager.fetchFavoriteCards { cards in
-               XCTAssertEqual(cards.count, 1)
+           let fetchExpectation = XCTestExpectation(description: "Fetch favorite characters")
+           coreDataManager.fetchFavoriteCharacters { characters in
+               XCTAssertEqual(characters.count, 1)
                
-               let fetchedCard = cards.first
-               XCTAssertEqual(fetchedCard?.id, "1")
-               XCTAssertEqual(fetchedCard?.characterName, "TestName")
-               XCTAssertEqual(fetchedCard?.characterDescription, "TestDescription")
-               XCTAssertEqual(fetchedCard?.characterImage, "TestImage")
+               let fetchedCharacter = characters.first
+               XCTAssertEqual(fetchedCharacter?.id, "1")
+               XCTAssertEqual(fetchedCharacter?.characterName, "TestName")
+               XCTAssertEqual(fetchedCharacter?.characterDescription, "TestDescription")
+               XCTAssertEqual(fetchedCharacter?.characterImage, "TestImage")
                
                fetchExpectation.fulfill()
            }
