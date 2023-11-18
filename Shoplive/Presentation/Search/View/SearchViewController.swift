@@ -157,6 +157,10 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        searchViewModel?.selectFavoriteCharacter(index: indexPath.row)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let threshold: CGFloat = 200
         let contentOffsetY = scrollView.contentOffset.y
