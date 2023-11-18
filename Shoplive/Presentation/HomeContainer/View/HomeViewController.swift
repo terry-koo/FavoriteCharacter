@@ -82,39 +82,18 @@ extension HomeViewController {
         favoriteBar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(favoriteBarTapped(_:))))
     }
     
-    // 메모리에 SearchViewController가 존재 하지 않을 경우만 초기화 동작
-    private func showSearchView() {
-        // 메모리에 SearchViewController가 존재하는 경우
-        if let searchViewController = searchViewController {
-            if let currentVC = currentChildViewController {
-                currentVC.removeFromParent()
-                currentVC.view.removeFromSuperview()
-            }
-            
-            addChild(searchViewController)
-            view.addSubview(searchViewController.view)
-            
-            currentChildViewController = searchViewController
-        } else {
-            // 메모리에 SearchViewController가 존재하지 않는 경우
-            searchViewController = SearchViewController()
-            
-            if let currentVC = currentChildViewController {
-                currentVC.removeFromParent()
-                currentVC.view.removeFromSuperview()
-            }
-            
-            if let searchViewController = searchViewController {
-                searchViewController.searchViewModel = SearchViewModel()
-                
-                addChild(searchViewController)
-                view.addSubview(searchViewController.view)
-                
-                currentChildViewController = searchViewController
-            }
+    private func showChildViewController(_ viewController: UIViewController) {
+        if let currentVC = currentChildViewController {
+            currentVC.removeFromParent()
+            currentVC.view.removeFromSuperview()
         }
         
-        searchViewController?.view.snp.makeConstraints { make in
+        addChild(viewController)
+        view.addSubview(viewController.view)
+        
+        currentChildViewController = viewController
+        
+        viewController.view.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
@@ -122,43 +101,29 @@ extension HomeViewController {
         }
     }
     
-    // 메모리에 FavoriteViewController가 존재 하지 않을 경우만 초기화 동작
-    private func showFavoriteView() {
-        // 메모리에 FavoriteViewController가 존재하는 경우
-        if let favoriteViewController = favoriteViewController {
-            if let currentVC = currentChildViewController {
-                currentVC.removeFromParent()
-                currentVC.view.removeFromSuperview()
-            }
-            
-            addChild(favoriteViewController)
-            view.addSubview(favoriteViewController.view)
-            
-            currentChildViewController = favoriteViewController
+    private func showSearchView() {
+        if let searchViewController = searchViewController {
+            showChildViewController(searchViewController)
         } else {
-            // 메모리에 FavoriteViewController가 존재하지 않는 경우
-            favoriteViewController = FavoriteViewController()
+            searchViewController = SearchViewController()
             
-            if let currentVC = currentChildViewController {
-                currentVC.removeFromParent()
-                currentVC.view.removeFromSuperview()
-            }
-            
-            if let favoriteViewController = favoriteViewController {
-                favoriteViewController.favoriteViewModel = FavoriteViewModel()
-                
-                addChild(favoriteViewController)
-                view.addSubview(favoriteViewController.view)
-                
-                currentChildViewController = favoriteViewController
+            if let searchViewController = searchViewController {
+                searchViewController.searchViewModel = CharacterSearchViewModel()
+                showChildViewController(searchViewController)
             }
         }
-        
-        favoriteViewController?.view.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalTo(favoriteBar.snp.top).offset(-10)
+    }
+    
+    private func showFavoriteView() {
+        if let favoriteViewController = favoriteViewController {
+            showChildViewController(favoriteViewController)
+        } else {
+            favoriteViewController = FavoriteViewController()
+            
+            if let favoriteViewController = favoriteViewController {
+                favoriteViewController.favoriteViewModel = FavoriteCharacterViewModel()
+                showChildViewController(favoriteViewController)
+            }
         }
     }
     
