@@ -54,11 +54,16 @@ final class FavoriteViewController: UIViewController {
     private func bind() {
         guard let favoriteViewModel else { return }
         
-        favoriteViewModel.favoriteCharacterData.observe(on: self) { [weak self] data in
+        favoriteViewModel.favoriteCharacterData.observe(on: self) { [weak self] favoriteCharacters in
             guard let self else { return }
             
             characterCardCollectionView.reloadData()
             
+            if favoriteCharacters.isEmpty {
+                showMessageLabel()
+            } else {
+                removeMessageLabel()
+            }
         }
         
         favoriteViewModel.isLoading.observe(on: self) { [weak self] isLoading in
@@ -104,6 +109,17 @@ extension FavoriteViewController {
         loadingIndicator.removeFromSuperview()
     }
     
+    private func showMessageLabel() {
+        view.addSubview(messageLabel)
+        
+        messageLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
+    
+    private func removeMessageLabel() {
+        messageLabel.removeFromSuperview()
+    }
 }
 
 extension FavoriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
