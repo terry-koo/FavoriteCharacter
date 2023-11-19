@@ -10,19 +10,20 @@ import SnapKit
 import Kingfisher
 
 final class SearchViewController: UIViewController {
-    var searchViewModel: SearchViewModel?
+    var searchViewModel: CharacterSearchViewModelProtocol?
     
     private let characterCardCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        
         let width = UIScreen.main.bounds.width
         let height = UIScreen.main.bounds.height
         let padding = (width - (width / 2.2) * 2) / 3
         
+        let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: width / 2.2, height: height / 3)
         layout.sectionInset = UIEdgeInsets(top: 10, left: padding, bottom: 10, right: padding)
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CharacterCardCollectionViewCell.self, forCellWithReuseIdentifier: CharacterCardCollectionViewCell.identifier)
+        
         return collectionView
     }()
     
@@ -47,6 +48,11 @@ final class SearchViewController: UIViewController {
         bind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        searchViewModel?.fetchCharactersWithPagination()
+        searchViewModel?.fetchFavoriteCharacters()
+    }
+    
     private func bind() {
         guard let searchViewModel else { return }
         
@@ -56,13 +62,14 @@ final class SearchViewController: UIViewController {
             characterCardCollectionView.reloadData()
         }
         
-        searchViewModel.isFetching.observe(on: self) { [weak self] isFetching in
+        searchViewModel.isLoading.observe(on: self) { [weak self] isLoading in
             guard let self else { return }
             
-            if isFetching {
+            if isLoading {
                 showLoading()
             } else {
                 hideLoading()
+                characterCardCollectionView.reloadData()
             }
         }
     }
@@ -148,13 +155,21 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCardCollectionViewCell.identifier, for: indexPath) as! CharacterCardCollectionViewCell
-        
+
         guard let searchViewModel else { return cell }
         
         let characterData = searchViewModel.getCharacterData(index: indexPath.row)
+        if searchViewModel.isFavoriteCharacter(id: characterData.id) {
+            cell.favorite = true
+        }
+        
         cell.setData(characterData)
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        searchViewModel?.selectFavoriteCharacter(index: indexPath.row)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -165,9 +180,9 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         if contentOffsetY > contentHeight - scrollViewHeight - threshold {
             if searchBar.text?.isEmpty ?? true {
-                searchViewModel?.getCharaterCollections()
+                searchViewModel?.fetchCharactersWithPagination()
             } else {
-                searchViewModel?.searchCharacter(searchBar.text!)
+                searchViewModel?.searchCharacterWithName(searchBar.text ?? "")
             }
         }
     }

@@ -1,5 +1,5 @@
 //
-//  FavoriteCardCoreDataManager.swift
+//  FavoriteCharacterCoreDataManager.swift
 //  Shoplive
 //
 //  Created by Terry Koo on 11/15/23.
@@ -8,49 +8,49 @@
 import Foundation
 import CoreData
 
-final class FavoriteCardCoreDataManager: FavoriteCardStore {
+final class FavoriteCharacterCoreDataManager: FavoriteCharacterStorable {
     
-    func saveFavoriteCard(id: String, characterName: String, characterDescription: String, characterImage: String, saveDate: Date, completion: @escaping () -> Void) {
+    func saveFavoriteCharacter(id: String, characterName: String, characterDescription: String, characterImage: String, saveDate: Date, completion: @escaping () -> Void) {
         CoreDataStack.shared.performBackgroundTask { context in
-            let favoriteCard = FavoriteCard(context: context)
-            favoriteCard.id = id
-            favoriteCard.characterName = characterName
-            favoriteCard.characterDescription = characterDescription
-            favoriteCard.characterImage = characterImage
-            favoriteCard.saveDate = saveDate
+            let favoriteCharacter = FavoriteCharacter(context: context)
+            favoriteCharacter.id = id
+            favoriteCharacter.characterName = characterName
+            favoriteCharacter.characterDescription = characterDescription
+            favoriteCharacter.characterImage = characterImage
+            favoriteCharacter.saveDate = saveDate
             
             do {
                 try context.save()
                 CoreDataStack.shared.saveContext()
                 completion()
             } catch {
-                print("Error saving favorite card: \(error)")
+                print("Error saving favorite character: \(error)")
             }
         }
     }
     
-    func removeOldestFavoriteCard(completion: @escaping () -> Void) {
+    func removeOldestFavoriteCharacter(completion: @escaping () -> Void) {
         CoreDataStack.shared.performBackgroundTask { context in
-            let fetchRequest: NSFetchRequest<FavoriteCard> = FavoriteCard.fetchRequest()
+            let fetchRequest: NSFetchRequest<FavoriteCharacter> = FavoriteCharacter.fetchRequest()
             let sortDescriptor = NSSortDescriptor(key: "saveDate", ascending: true)
             fetchRequest.sortDescriptors = [sortDescriptor]
             
-            if let oldestCard = try? context.fetch(fetchRequest).first {
-                context.delete(oldestCard)
+            if let oldestCharacter = try? context.fetch(fetchRequest).first {
+                context.delete(oldestCharacter)
                 do {
                     try context.save()
                     CoreDataStack.shared.saveContext()
                     completion()
                 } catch {
-                    print("Remove oldest favorite card error : \(error)")
+                    print("Remove oldest favorite character error : \(error)")
                 }
             }
         }
     }
     
-    func removeFavoriteCard(id: String, completion: @escaping () -> Void) {
+    func removeFavoriteCharacter(id: String, completion: @escaping () -> Void) {
         CoreDataStack.shared.performBackgroundTask { context in
-            let fetchRequest: NSFetchRequest<FavoriteCard> = FavoriteCard.fetchRequest()
+            let fetchRequest: NSFetchRequest<FavoriteCharacter> = FavoriteCharacter.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
             
             if let result = try? context.fetch(fetchRequest) {
@@ -62,15 +62,15 @@ final class FavoriteCardCoreDataManager: FavoriteCardStore {
                     CoreDataStack.shared.saveContext()
                     completion()
                 } catch {
-                    print("Remove favorite card error : \(error)")
+                    print("Remove favorite character error : \(error)")
                 }
             }
         }
     }
     
-    func fetchFavoriteCards(completion: @escaping ([FavoriteCard]) -> Void) {
+    func fetchFavoriteCharacters(completion: @escaping ([FavoriteCharacter]) -> Void) {
         CoreDataStack.shared.performBackgroundTask { context in
-            let fetchRequest: NSFetchRequest<FavoriteCard> = FavoriteCard.fetchRequest()
+            let fetchRequest: NSFetchRequest<FavoriteCharacter> = FavoriteCharacter.fetchRequest()
             
             if let result = try? context.fetch(fetchRequest) {
                 completion(result)
